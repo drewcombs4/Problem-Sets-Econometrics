@@ -1,7 +1,7 @@
 ###################################################
 ### Problem Set 1: Introduction to Econometrics ###
 ### Spring 2025                                 ###
-### Author: Drew Combs, Declan Woods and Ben A. ###
+### Author: Drew Combs, Declan Woods, Benjamin Abernathy, and Sanata Diao ###
 ###################################################
 
 #clear memory first

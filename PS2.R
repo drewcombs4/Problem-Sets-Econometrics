@@ -1,7 +1,7 @@
 ###################################################
 ### Problem Set 1: Introduction to Econometrics ###
 ### Spring 2025                                 ###
-### Author: Drew Combs, Declan Woods, Benjamin Abernathy, and Sanata Diao ###
+### Author: Drew Combs, Declan Woods and Ben A. ###
 ###################################################
 
 #clear memory first
@@ -22,22 +22,29 @@ data("prison" , package ="wooldridge")
 #Explain what this data is about
 
 help("prison")
-print(paste("The data is about The Effect of Prison Population Size on Crime Rates")
-
+print(paste("The data is about The Effect of Prison Population Size on Crime Rates"))
+      
 #Number of Observations
 n_obs <- nrow(prison)
 print(paste("Number of Observations:", n_obs))
-
-#Units of Obvseration
+      
+#Units of Observation
 help("prison")
 print(paste("Units of Obvservation: States over Time"))
-
+      
 #Variable Names
 print(colnames(prison))
 
 ## b. Compute the mean violent crime rate and the mean property crime rate. Generate a scatter plot of the relationship between property crime rates and violent crime rates.Remember to include axis labels and a title. Show your results.
 
-      
+summary(prison$crip)
+
+summary(prison$criv)
+
+plot(prison$criv, prison$crip, main= "Relationship Between Property Crime Rates and Violent Crime Rates",
+     pch=16, col= "blue", xlab = "Property Crime Rates (per 100,000)" , ylab= "Violent Crime Rates (per 100,000)")
+abline(lm(prison$criv~prison$crip), col= "black")
+
 ## c. Assume that you are using a bivariate model:
 
   ##violent crime ratei = β0 + β1 property crime ratei + εi

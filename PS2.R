@@ -48,6 +48,9 @@ plot(prison$crip, prison$criv, main= "Relationship Between Property Crime Rates 
 
 ##violent crime ratei = β0 + β1 property crime ratei + εi
 
+##H_0: beta_1 = 0
+#H_A: beta_1 != 0
+
 ##d. Regress the violent crime rate on the property crime rate. Show and interpret your regression results. What does ˆβ0 mean? What does ˆβ1 mean?
 Bivariate_model <- lm(formula =prison$criv~prison$crip, data = prison)
 summary(Bivariate_model)
@@ -84,6 +87,7 @@ qt(p_005_two,df_violentcrimerate)
 p_01_two <- 1-0.1/2
 qt(p_01_two,df_violentcrimerate)
 
+print("The results above allow us to reject the null hypothesis that beta_1 = 0 or that there is no effect between property crime rates and violent crime rates among states. The t-statistic is much greater than 0 (24.91) meaning that it is extremely likely that there is a causation between criv and crip. Secondly, we also proved that the p-value is <2e-16 (extremely small and close to 0), showing that there is an extremely small probability that there is a Type I error. Since the p-value is below .05,.1, and .01, our hypothesis is statistically significant.")
 ##g. Explain the difference between homoscedasticity and heteroscedasticity. Do you think we have a heteroscedasticity problem here? Explain your reasoning. Recalculate the t-statistic for the property crime rate correcting for this potential heteroscedasticity problem. Do your estimates change a lot? Do your conclusions? Explain your results.
 
 # Get the squared residuals

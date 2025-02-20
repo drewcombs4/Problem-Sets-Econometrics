@@ -1,8 +1,8 @@
-###################################################
-### Problem Set 1: Introduction to Econometrics ###
-### Spring 2025                                 ###
+################################################################
+### Problem Set 1: Introduction to Econometrics              ###
+### Spring 2025                                              ###
 ### Author: Drew Combs, Declan Woods and Benjamin Abernathy. ###
-###################################################
+###############################################################
 
 #clear memory first
 rm(list=ls())

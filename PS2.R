@@ -41,7 +41,7 @@ summary(prison$crip)
 
 summary(prison$criv)
 
-plot(prison$criv, prison$crip, main= "Relationship Between Property Crime Rates and Violent Crime Rates",
+plot(prison$crip, prison$criv, main= "Relationship Between Property Crime Rates and Violent Crime Rates",
      pch=16, col= "blue", xlab = "Property Crime Rates (per 100,000)" , ylab= "Violent Crime Rates (per 100,000)")
 
 ## c. Assume that you are using a bivariate model:
@@ -55,12 +55,12 @@ summary(Bivariate_model)
 print("When the x (x1) term is 0, Beta_0 is the predicted value of Y. In this particular regression, when the property crime rate for a state is at 0, the violent crime rate for a state is -3.917401. Beta_1 represents the change in Y for a one-unit change in X. For every 1 increase in the units of poperty crime rate for a state, the violent crime rate in a state increases by $.193732.")
 
 ##e. Re-generate a scatter plot of the relationship between property crime rates and violent crime rates but include the regression line. Does your model fit the data well? Also assess the two other measures of goodness of fit that we discussed in class.
-plot(prison$criv, prison$crip, main= "Relationship Between Property Crime Rates and Violent Crime Rates",
+plot(prison$crip, prison$criv, main= "Relationship Between Property Crime Rates and Violent Crime Rates",
      pch=16, col= "red", xlab = "Property Crime Rates (per 100,000)" , ylab= "Violent Crime Rates (per 100,000)")
-abline(lm(prison$crip~prison$criv), col= "black")
+abline(lm(prison$criv~prison$crip), col= "black")
 
-cov(prison$criv,prison$crip)
-cor(prison$criv,prison$crip)
+cov(prison$crip,prison$criv)
+cor(prison$crip,prison$criv)
       
 ##f. What is the t-statistic for the property crime rate? How about the p-value? Calculate the critical values for significance levels of 0.1, 0.05, and 0.01. What do your results tell you about your hypotheses in part b?
 

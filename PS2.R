@@ -41,6 +41,11 @@ summary(prison$crip)
 
 summary(prison$criv)
 
+##if summary did not show mean:
+mean(prison$crip)
+
+mean(prison$criv)
+
 plot(prison$crip, prison$criv, main= "Relationship Between Property Crime Rates and Violent Crime Rates",
      pch=16, col= "blue", xlab = "Property Crime Rates (per 100,000)" , ylab= "Violent Crime Rates (per 100,000)")
 

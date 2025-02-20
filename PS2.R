@@ -51,8 +51,10 @@ abline(lm(prison$criv~prison$crip), col= "black")
       
 
 ##d. Regress the violent crime rate on the property crime rate. Show and interpret your regression results. What does ˆβ0 mean? What does ˆβ1 mean?
+Bivariate_model <- lm(formula =prison$criv~prison$crip, data = prison)
+summary(Bivariate_model)
 
-      
+print("When the x (x1) term is 0, Beta_0 is the predicted value of Y. In this particular regression, when the property crime rate for a state is at 0, the violent crime rate for a state is -3.917401. Beta_1 represents the change in Y for a one-unit change in X. For every 1 increase in the units of poperty crime rate for a state, the violent crime rate in a state increases by $.193732.")      
 ##e. Re-generate a scatter plot of the relationship between property crime rates and violent crime rates but include the regression line. Does your model fit the data well? Also assess the two other measures of goodness of fit that we discussed in class.
 
       

@@ -64,6 +64,12 @@ cov(prison$criv,prison$crip)
 cor(prison$criv,prison$crip)
       
 ##f. What is the t-statistic for the property crime rate? How about the p-value? Calculate the critical values for significance levels of 0.1, 0.05, and 0.01. What do your results tell you about your hypotheses in part b?
+
+#T-statistic
+print(paste("T-statistic: 24.91"))
+
+#P-Value
+print(paste("P-Value: <2e-16"))
 #critical values
 #.01
 p_001_2 <- 1 - 0.01/2

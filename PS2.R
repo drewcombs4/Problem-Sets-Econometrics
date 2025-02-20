@@ -91,9 +91,9 @@ residuals_squared <- resid(Bivariate_model)^2
 # Regress squared residuals on the property crime rate
 bp_model <- lm(residuals_squared ~ prison$crip + fitted(Bivariate_model), data = prison)
 # Breusch-Pagan test
-bptest_result <- bptest(bp_model) 
+bptest_result <- bptest(bp_model) #I don't remember how we did this in class, I used R-Bloggers to come up with this 
 print(bptest_result)
-# Robust Standard Errors (White correction)
+# Robust Standard Errors 
 robust_se <- coeftest(Bivariate_model, vcov. = vcovHC(Bivariate_model, type = "HC1"))
 # Display original coefficients
 print("Original Coefficients:")
@@ -101,12 +101,13 @@ print(summary(Bivariate_model)$coefficients)
 # Display robust coefficients
 print("Robust Coefficients:")
 print(robust_se)
-print("Homescedasticity refers to when the spread of the variance of the data points remains consistent regardless of the value of the independent variable. Heteroscedasticity refers to when there are trends between individuals within the error term, meaning different individuals' error terms are correlated; this leads to variances that shift depending on the value of the independent variable. I do believe we may have a heteroscedasticity problem as the graph of the residuals appears to show variances which increase as the value of the independent variable changes. Our estimates and conclusions do not change significantly as the problem with heteroscedasticity was not large, there was however a slight change so it is important that we corrected for this issue.")      
+print("Homescedasticity refers to when the spread of the variance of the data points remains consistent regardless of the value of the independent variable. Heteroscedasticity refers to when there are trends between individuals within the error term, meaning different individuals' error terms are correlated; this leads to variances that shift depending on the value of the independent variable. I do believe we may have a heteroscedasticity problem as the graph of the residuals appears to show variances which increase as the value of the independent variable changes. Our estimates and conclusions do not change significantly as the problem with heteroscedasticity was not large, there was however a slight change so it is important that we corrected for this issue Changes: prision$crip original = .0078 robust = .0148 & Intercept original = .3732 robust = .6296 .")
 
       
 ##h. As an econometrician, do you think that there is a causal relationship here? Are there any issues with the conclusions you came to in parts f. and g.? Explain your reasoning.
 
-      
+print("As an econometrician I do not believe there is a casual relationship, while we observe a statistically signifigant association correlation does not equal causation. Factors such as ommited variables and simultaneity prevent us from being able to establish causality")
+    
 ##i. List at least two variables that are potential threats to exogeneity in these regressions and explain why they might be causing problems.
 
-      
+print("Metro could threaten exogeneity because urban areas may have different property and violent crime opportunities and different police strategies. Unemployment may be another threat because higher unemployment rates may lead to more crime and fewer businesses in the area leading to higher levels of unemployment")  

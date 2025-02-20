@@ -68,7 +68,7 @@ cor(prison$criv,prison$crip)
 #.01
 p_001_2 <- 1 - 0.01/2
 df_violentcrimerate <- nrow(prison[!is.na(prison$criv) & !is.na(prison$crip),]) -2
-      
+qt(p_001_two,df_violentcrimerate)      
 ##g. Explain the difference between homoscedasticity and heteroscedasticity. Do you think we have a heteroscedasticity problem here? Explain your reasoning. Recalculate the t-statistic for the property crime rate correcting for this potential heteroscedasticity problem. Do your estimates change a lot? Do your conclusions? Explain your results.
 
       

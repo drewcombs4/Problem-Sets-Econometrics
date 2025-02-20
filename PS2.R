@@ -23,15 +23,15 @@ data("prison" , package ="wooldridge")
 
 help("prison")
 print(paste("The data is about The Effect of Prison Population Size on Crime Rates"))
-      
+
 #Number of Observations
 n_obs <- nrow(prison)
 print(paste("Number of Observations:", n_obs))
-      
+
 #Units of Observation
 help("prison")
 print(paste("Units of Obvservation: States over Time"))
-      
+
 #Variable Names
 print(colnames(prison))
 
@@ -46,10 +46,10 @@ plot(prison$crip, prison$criv, main= "Relationship Between Property Crime Rates 
 
 ## c. Assume that you are using a bivariate model:
 
-  ##violent crime ratei = β0 + β1 property crime ratei + εi
+##violent crime ratei = β0 + β1 property crime ratei + εi
 
 ##d. Regress the violent crime rate on the property crime rate. Show and interpret your regression results. What does ˆβ0 mean? What does ˆβ1 mean?
-Bivariate_model <- lm(formula =prison$crip~prison$criv, data = prison)
+Bivariate_model <- lm(formula =prison$criv~prison$crip, data = prison)
 summary(Bivariate_model)
 
 print("When the x (x1) term is 0, Beta_0 is the predicted value of Y. In this particular regression, when the property crime rate for a state is at 0, the violent crime rate for a state is -3.917401. Beta_1 represents the change in Y for a one-unit change in X. For every 1 increase in the units of poperty crime rate for a state, the violent crime rate in a state increases by $.193732.")
@@ -61,7 +61,7 @@ abline(lm(prison$criv~prison$crip), col= "black")
 
 cov(prison$crip,prison$criv)
 cor(prison$crip,prison$criv)
-      
+
 ##f. What is the t-statistic for the property crime rate? How about the p-value? Calculate the critical values for significance levels of 0.1, 0.05, and 0.01. What do your results tell you about your hypotheses in part b?
 
 #T-statistic
@@ -73,7 +73,7 @@ print(paste("P-Value: <2e-16"))
 #.01
 p_001_two <- 1 - 0.01/2
 df_violentcrimerate <- nrow(prison[!is.na(prison$criv) & !is.na(prison$crip),]) -2
-df_violentcrimerate_results <- violentcrimerate_results$df
+df_violentcrimerate_results <- Bivariate_model$df
 qt(p_001_two,df_violentcrimerate)
 
 #0.05
@@ -103,11 +103,11 @@ print("Robust Coefficients:")
 print(robust_se)
 print("Homescedasticity refers to when the spread of the variance of the data points remains consistent regardless of the value of the independent variable. Heteroscedasticity refers to when there are trends between individuals within the error term, meaning different individuals' error terms are correlated; this leads to variances that shift depending on the value of the independent variable. I do believe we may have a heteroscedasticity problem as the graph of the residuals appears to show variances which increase as the value of the independent variable changes. Our estimates and conclusions do not change significantly as the problem with heteroscedasticity was not large, there was however a slight change so it is important that we corrected for this issue Changes: prision$crip original = .0078 robust = .0148 & Intercept original = .3732 robust = .6296 .")
 
-      
+
 ##h. As an econometrician, do you think that there is a causal relationship here? Are there any issues with the conclusions you came to in parts f. and g.? Explain your reasoning.
 
 print("As an econometrician I do not believe there is a casual relationship, while we observe a statistically signifigant association correlation does not equal causation. Factors such as ommited variables and simultaneity prevent us from being able to establish causality")
-    
+
 ##i. List at least two variables that are potential threats to exogeneity in these regressions and explain why they might be causing problems.
 
 print("Metro could threaten exogeneity because urban areas may have different property and violent crime opportunities and different police strategies. Unemployment may be another threat because higher unemployment rates may lead to more crime and fewer businesses in the area leading to higher levels of unemployment")  

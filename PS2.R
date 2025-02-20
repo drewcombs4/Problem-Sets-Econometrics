@@ -101,7 +101,7 @@ print(summary(Bivariate_model)$coefficients)
 # Display robust coefficients
 print("Robust Coefficients:")
 print(robust_se)
-print("Homescedasticity refers to when the spread of the variance of the data points remains consistent regardless of the value of the independent variable. Heteroscedasticity refers to when there are trends between individuals within the error term, meaning different individuals' error terms are correlated; this leads to variances that shift depending on the value of the independent variable.")      
+print("Homescedasticity refers to when the spread of the variance of the data points remains consistent regardless of the value of the independent variable. Heteroscedasticity refers to when there are trends between individuals within the error term, meaning different individuals' error terms are correlated; this leads to variances that shift depending on the value of the independent variable. I do believe we may have a heteroscedasticity problem as the graph of the residuals appears to show variances which increase as the value of the independent variable changes. Our estimates and conclusions do not change significantly as the problem with heteroscedasticity was not large, there was however a slight change so it is important that we corrected for this issue.")      
 
       
 ##h. As an econometrician, do you think that there is a causal relationship here? Are there any issues with the conclusions you came to in parts f. and g.? Explain your reasoning.

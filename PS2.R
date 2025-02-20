@@ -86,6 +86,23 @@ qt(p_01_two,df_violentcrimerate)
 
 ##g. Explain the difference between homoscedasticity and heteroscedasticity. Do you think we have a heteroscedasticity problem here? Explain your reasoning. Recalculate the t-statistic for the property crime rate correcting for this potential heteroscedasticity problem. Do your estimates change a lot? Do your conclusions? Explain your results.
 
+# Get the squared residuals
+residuals_squared <- resid(Bivariate_model)^2
+# Regress squared residuals on the property crime rate
+bp_model <- lm(residuals_squared ~ prison$crip + fitted(Bivariate_model), data = prison)
+# Breusch-Pagan test
+bptest_result <- bptest(bp_model) 
+print(bptest_result)
+# Robust Standard Errors (White correction)
+robust_se <- coeftest(Bivariate_model, vcov. = vcovHC(Bivariate_model, type = "HC1"))
+# Display original coefficients
+print("Original Coefficients:")
+print(summary(Bivariate_model)$coefficients)
+# Display robust coefficients
+print("Robust Coefficients:")
+print(robust_se)
+print("Homoscedasticity means the variance of errors is constant, while heteroscedasticity means the variance is not constant. The Breusch-Pagan test indicates heteroscedasticity in our model (BP = 52.829, p < 2.2e-16). Using robust standard errors, which correct for heteroscedasticity, the property crime rate remains highly significant (t = 13.059, p < 2.2e-16), but with a larger standard error, showing the initial estimate was less precise.")      
+
       
 ##h. As an econometrician, do you think that there is a causal relationship here? Are there any issues with the conclusions you came to in parts f. and g.? Explain your reasoning.
 

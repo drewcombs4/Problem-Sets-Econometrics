@@ -101,7 +101,7 @@ print(summary(Bivariate_model)$coefficients)
 # Display robust coefficients
 print("Robust Coefficients:")
 print(robust_se)
-print("Homoscedasticity means the variance of errors is constant, while heteroscedasticity means the variance is not constant. The Breusch-Pagan test indicates heteroscedasticity in our model (BP = 52.829, p < 2.2e-16). Using robust standard errors, which correct for heteroscedasticity, the property crime rate remains highly significant (t = 13.059, p < 2.2e-16), but with a larger standard error, showing the initial estimate was less precise.")      
+print("Homescedasticity refers to when the spread of the variance of the data points remains consistent regardless of the value of the independent variable. Heteroscedasticity refers to when there are trends between individuals within the error term meaning different individual's error terms are correlated; this leads to unequal ")      
 
       
 ##h. As an econometrician, do you think that there is a causal relationship here? Are there any issues with the conclusions you came to in parts f. and g.? Explain your reasoning.

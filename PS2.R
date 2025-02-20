@@ -74,7 +74,16 @@ print(paste("P-Value: <2e-16"))
 p_001_two <- 1 - 0.01/2
 df_violentcrimerate <- nrow(prison[!is.na(prison$criv) & !is.na(prison$crip),]) -2
 df_violentcrimerate_results <- violentcrimerate_results$df
-qt(p_001_two,df_violentcrimerate)      
+qt(p_001_two,df_violentcrimerate)
+
+#0.05
+p_005_two <- 1-0.05/2
+qt(p_005_two,df_violentcrimerate)
+
+#0.1
+p_01_two <- 1-0.1/2
+qt(p_01_two,df_violentcrimerate)
+
 ##g. Explain the difference between homoscedasticity and heteroscedasticity. Do you think we have a heteroscedasticity problem here? Explain your reasoning. Recalculate the t-statistic for the property crime rate correcting for this potential heteroscedasticity problem. Do your estimates change a lot? Do your conclusions? Explain your results.
 
       

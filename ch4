@@ -1,0 +1,115 @@
+################################################################################
+############################
+#### Hypothesis Testing ####
+#pull in the presidents data
+data("presidents", package = "wooldridge")
+
+#let's call this dataset something that makes sense and remove the old dta dataframe
+pres_data <- presidents
+rm(presidents)
+
+################################################
+#### Unemployment and Democratic Presidents ####
+
+###########
+#make a null and alternative hypothesis for the effect of a democratic president on unemployment (two-sided)
+# Null hypothesis (H0): beta_1 = 0 (No effect of Democratic president on unemployment)
+# Alternative hypothesis (HA): beta_1 != 0 (Democratic president has an effect on unemployment)
+
+##########
+#what are the corresponding critical values for each of the following alphas?
+n <- nrow(pres_data) # Number of observations
+df <- n - 2  # Degrees of freedom (n - number of parameters estimated)
+
+#0.01 
+alpha <- 0.01
+critical_value_0.01 <- qt(1 - alpha/2, df)
+print(paste("Critical value for alpha = 0.01:", critical_value_0.01))
+
+#0.05
+alpha <- 0.05
+critical_value_0.05 <- qt(1 - alpha/2, df)
+print(paste("Critical value for alpha = 0.05:", critical_value_0.05))
+
+#0.1
+alpha <- 0.1
+critical_value_0.1 <- qt(1 - alpha/2, df)
+print(paste("Critical value for alpha = 0.1:", critical_value_0.1))
+
+# Explanation of equations:
+# The `qt()` function calculates the critical value for a t-distribution.
+# `1 - alpha/2`: Calculates the probability for a two-tailed test.
+# `df`: Degrees of freedom.
+
+##########
+#Let's estimate a model with unemployment as the dependent variable and LagDemPresident as the independent variable -- what do the coefficients mean?
+model_unemp <- lm(unem ~ lagdempres, data = pres_data)
+summary(model_unemp)
+
+# Interpretation:
+# beta_0 (Intercept): The average unemployment rate when there is NOT a Democratic president in office in the PREVIOUS year.
+# beta_1 (lagdempres): The change in average unemployment rate associated with having a Democratic president in office in the PREVIOUS year.
+
+##########
+#How can we construct a 95% confidence interval for beta_1_hat?
+
+#R has a function to do this
+confint(model_unemp, level = 0.95)
+
+#you can also do this manually
+beta_1_hat <- coef(model_unemp)["lagdempres"]
+se_beta_1_hat <- summary(model_unemp)$coefficients["lagdempres", "Std. Error"]
+t_critical <- qt(0.975, df)
+lower_bound <- beta_1_hat - t_critical * se_beta_1_hat
+upper_bound <- beta_1_hat + t_critical * se_beta_1_hat
+print(paste("95% Confidence Interval (manual):", lower_bound, "to", upper_bound))
+
+##########
+#what do the results tell you about your null and alternative hypotheses?
+# Look at the p-value for lagdempres in the summary(model_unemp) output.
+# If p-value < alpha (e.g., 0.05), reject the null hypothesis.
+# If p-value >= alpha, fail to reject the null hypothesis.
+# Also, check if the confidence interval includes 0. If it doesn't, reject the null hypothesis.
+
+#######################################
+#### GDP and Democratic Presidents ####
+
+##########
+#make a null and alternative hypothesis for the effect of a democratic president on GDP -- this is a on-sided hypothesis
+#H_0: beta_1 =0 (No effect of Democratic president on GDP)
+#H_A: beta_1 > 0 (Democratic president has a positive effect on GDP)
+
+##########
+#what are the corresponding critical values?
+#0.01 
+alpha <- 0.01
+critical_value_0.01_gdp <- qt(1 - alpha, df) # One-tailed test
+print(paste("Critical value for alpha = 0.01 (GDP):", critical_value_0.01_gdp))
+
+#0.05
+alpha <- 0.05
+critical_value_0.05_gdp <- qt(1 - alpha, df) # One-tailed test
+print(paste("Critical value for alpha = 0.05 (GDP):", critical_value_0.05_gdp))
+
+#0.1
+alpha <- 0.1
+critical_value_0.1_gdp <- qt(1 - alpha, df) # One-tailed test
+print(paste("Critical value for alpha = 0.1 (GDP):", critical_value_0.1_gdp))
+
+##########
+#Let's estimate a model with GDP per capita as the dependent variable -- what do the coefficients mean? what has changed from the previous regression?
+model_gdp <- lm(gdp ~ lagdempres, data = pres_data)
+summary(model_gdp)
+
+# Interpretation:
+# beta_0 (Intercept): The average GDP per capita when there is NOT a Democratic president in office in the PREVIOUS year.
+# beta_1 (lagdempres): The change in average GDP per capita associated with having a Democratic president in office in the PREVIOUS year.
+# Change: The dependent variable is now gdp instead of unem.
+
+##########
+#what do the results tell you about your null and alternative hypotheses?
+# Look at the p-value for lagdempres in the summary(model_gdp) output.
+# Since this is a one-sided test (HA: beta_1 > 0), you need to divide the p-value by 2.
+# If p-value/2 < alpha (e.g., 0.05), reject the null hypothesis.
+# If p-value/2 >= alpha, fail to reject the null hypothesis.
+# Also, check if the t-statistic is greater than the critical value for the corresponding alpha.

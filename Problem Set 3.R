@@ -152,10 +152,11 @@ summary(log_model_attendance_standardized)
 
 
 #g. Does runs scored have a greater effect on home attendance than wins?
-  
+
 
 #Write down the null and alternative hypotheses that correspond to this question.
-
+print("Null Hypothesis H0: Runs scored do not have a greater effect on home attendance than wins Bruns <= Bwins")
+print("Alternative Hypothesis HA: Runs scored do have a greater effect on home attendance than wins Bruns > Bwins")
 
 #Test your hypothesis at the 0.95 significance level, then report and interpret your results.
 

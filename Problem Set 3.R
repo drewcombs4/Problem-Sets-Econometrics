@@ -159,7 +159,9 @@ print("Null Hypothesis H0: Runs scored do not have a greater effect on home atte
 print("Alternative Hypothesis HA: Runs scored do have a greater effect on home attendance than wins Bruns > Bwins")
 
 #Test your hypothesis at the 0.95 significance level, then report and interpret your results.
+print("Yes, when tested at a significance level of 0.95 runs scored do have a greater effect on standard error than wins. Runs scored, when standardized has an estimated coefficient of 0.17342. Meanwhile, wins, when standardized, has an estimated coefficient of 0.10890. 0.17342 > 0.10890.")
 
 
 #Explain why standardizing the variables allows for a direct comparison of the effects of runs scored and wins on home attendance.
+print("Standardizing the variables allows us to compare variables which without standardization would not be equivalent. i.e. a 1 unit change in runs scored is not equivalent to a 1 unit change in wins. Standardization allows direct comparison as it changes the units from, in this case, an change in one run or one win to where each unit is 1 standard deviation away from that units mean. Standardizin the variables effectively puts them in the same units allowing us to compare their relative impacts.")
 

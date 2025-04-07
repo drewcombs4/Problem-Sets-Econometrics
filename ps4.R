@@ -92,9 +92,6 @@ print("Beta_0 ")
 
 #D. Repeat part b. with two way fixed effects. Run this regression, then show and interpret your regression results. What are ˆβ1, ˆβ2, ˆβ3, ˆβ4? What do they mean? Looking at these values, did the coefficients change a lot or a little? Do you think the fixed effects helped?  
 
-Attendance_Runs_interact_results <- lm(baseball_attendance$home_attend ~ baseball_attendance$league + baseball_attendance$runs_scored + baseball_attendance$runs_scored:baseball_attendance$league, data=baseball_attendance)
-
-summary(Attendance_Runs_interact_results)
 
 
 

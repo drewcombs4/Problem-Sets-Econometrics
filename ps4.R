@@ -138,7 +138,6 @@ summary(Fixed_Second_Stage)
 
 #g. Assess the validity of the instrument:
   #Write down and explain the two conditions that instruments must satisfy.
-  print(paste("A good instrument: 1. Is not correlated with and components on the error term, and 2. Explains the endogenous variable very well; it is highly correlated with X1."))
 
   #Run the first stage regression. Report and interpret the t-statistic on the wloc variable.
   Fixed_Stage_One <- lm(Crime$polpc ~ Crime$wloc + Crime$prbarr + Crime$prbconv + Crime$avgsen + factor(county) + factor(year),  data = Crime)

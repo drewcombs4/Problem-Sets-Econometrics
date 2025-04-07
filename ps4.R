@@ -64,8 +64,6 @@ ggsave("Crime_Rate_x_PRBARR_Plott.pdf", plot = Crime_Rate_x_PRBARR_Plot, width =
 #Do you agree that this variable should be called “probability of arrest”? 
 #What about calling this a probability seems odd?
 
-print(paste("No, it does not make sense to call this a probabilitiy of arrest. In my own thoughts, I thoughts means the likelihood that a county has to arrest the common population. Without context, the variable is very ambiguous. In the way I percieved it, the variable's correlation with crime rate is highly perculiar due to it's negative relationship. Thus, in this study, the a higher probability of arrest a county has correlates with a county's lower crime rate. Economically, that statement does not really make sense. However, if the definition is changed, then it begins to make more sense. The more likely a county is to arrest people, the less likely people are to committ crimes. Unfortunetly, the highest probability of arrest occurs at a 2.75 probability, meaning that there is a 275% percent probability of arrest occurring in that county at that specific time. This specific probability of arrest does not make sense for the reason that they are 275% likely to arrest someone. I do not understand how that is even calculated. It does make sense that the county with the lowest crime rate in this study also has the highest probability of arrest at that specific time, when used as a deterrent."))
-
 #b. Assume that you are using a multivariate model: crmrteit = β0 + β1polpcit + β2prbarrit + β3prbconvit + β4avgsenit  εi
 
 #Run this regression then show and interpret your regression results. 

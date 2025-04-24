@@ -1182,6 +1182,12 @@ summary(log_model_attendance_standardized)
 
 #g. Does runs scored have a greater effect on home attendance than wins?
 
+linearHypothesis(first_stage_model, c("wage2$meduc = 0" , "wage2$feduc = 0"))
+
+fStat_result <- linearHypothesis(first_stage_model, c("wage2$meduc = 0" , "wage2$feduc = 0"))
+
+f_stat_feduc_meduc <- fStat_result[["F"]][2]  
+print(paste("F-statistic:",f_stat_feduc_meduc ))
 
 #Write down the null and alternative hypotheses that correspond to this question.
 print("Null Hypothesis H0: Runs scored do not have a greater effect on home attendance than wins Bruns <= Bwins")

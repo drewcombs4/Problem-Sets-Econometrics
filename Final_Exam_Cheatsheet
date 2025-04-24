@@ -1051,7 +1051,7 @@ rm(dta)
 
 #a. What are the units of observation for this dataset? 
 
-print(paste("Units of Observation: Major League Baseball Teams"))
+print(paste("Units of Observation: Team Years"))
 
 #Compute the mean of home attendance for National League and American League Seperately
 

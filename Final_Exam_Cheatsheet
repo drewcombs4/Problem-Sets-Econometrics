@@ -1319,3 +1319,128 @@ print(paste("The results stemming from the IV regression have substanstially imp
 
 #Do you trust your results?
 print(paste("Due to the use of instrument variables, I believe our results are now more trustworthy than before. While our results may be less precise, by controlling both instrument variables, our results are less bias. When determining the relavance of our instruments, it was discovered that their F-Stats were well above the inclusion threshold of 10, meaning there is a need to control for endogenity in our educ variable. Without said instrumental variables, controllable endogenity would continue to exist in our original model and skew the statistical results. Furthermore, our new model correctly displays an dwindled estimated diminishing return of IQ, which is more rational than the original prediction, which was much larger. Age, too, displays the concept of diminishing returns, which I believe makes more sense than our original estimate. The original model predicted a continous linear increase that makes little sense for the average worker (especially once workers begin to hit the age of 65)."))
+
+#MIDTERM
+
+###################################################
+### Midterm: Introduction to Econometrics       ###
+### Spring 2025                                 ###
+### Author: Drew Combs                          ###
+###################################################
+
+#clear memory first
+
+rm(list=ls())
+
+#set working directory
+
+cpath <- "/Users/drewcombs/desktop/Econometrics R Sessions"
+setwd(cpath)
+
+load("Midterm1.RData")
+
+
+###############################
+# Question a.: How many rows are there? What are the names of the variables in this dataset?
+
+#Variable Names
+print(colnames(twoyear))
+
+#Units of Obvseration
+print(paste("Units of Observation: Individuals or graduates of two/four year degree programs"))
+
+#Number of Rows
+n_obs <- nrow(twoyear)
+print(paste("Number of Observations:", n_obs))
+
+# Question b.: Compute mean values and median values for exper variable? 
+
+#mean and median for exper
+
+summary(twoyear$exper)
+
+#or 
+
+mean(twoyear$exper)
+median(twoyear$exper)
+
+#histogram 
+hist(twoyear$exper, ylab = "", xlab="Work Experience in Months ", main=paste("Histogram of Work Experience "), breaks = 20, col="cadetblue4")
+
+# Question c.: 
+
+plot(twoyear$exper, twoyear$wage, main= "Hourly Wages Based on Total Experience of the Workers in Months",
+     pch=16, col= "blue", xlab = "Total Experience of Workers in Months" , ylab= "Hourly Wages")
+abline(lm(twoyear$wage~twoyear$exper), col= "black")
+
+#Question d
+
+##H_0: beta_1 = 0
+#H_A: beta_1 > 0
+
+#One Sided Test
+
+#Question e
+
+Bivariate_model <- lm(formula =twoyear$wage~twoyear$exper, data = twoyear)
+summary(Bivariate_model)
+
+print("When the x (x1) term is 0, Beta_0 is the predicted value of Y. In this particular regression, when experience of workers is at 0 months for for two-four year college grads, the total (starting) hourly wage totals $6.24. Beta_1 represents the change in Y for a one-unit change in X. For every 1 month increase in work experience the hourly wage increases by roughly 3 cents.")
+
+#question f
+
+#T-statistic
+
+#T-Stat for Beta_0
+
+print(paste("T-statistic: 26.15"))
+
+#T-Stat Beta_1
+print(paste("T-statistic: 19.11"))
+
+#Critical Values
+
+#.01
+p_001_two <- 1 - 0.01
+df_hourlywagerate <- nrow(twoyear[!is.na(twoyear$exper) & !is.na(twoyear$wage),]) -2
+df_hourlywagerate_results <- Bivariate_model$df
+qt(p_001_two,df_hourlywagerate)
+
+#0.05
+p_005_two <- 1-0.05
+qt(p_005_two,df_hourlywagerate)
+
+#0.1
+p_01_two <- 1-0.1
+qt(p_01_two,df_hourlywagerate)
+
+print("The results above allow us to reject the null hypothesis that beta_1 = 0 or that there is no effect between total worker's experience and higher hourly wages among two and four year college graduates. The t-statistic is much greater than 0 (19.11) meaning that it is extremely likely that there is a causation between exper and wage.")
+
+#question g
+
+wage_results <- lm(twoyear$wage ~ twoyear$exper + twoyear$female + twoyear$phsrank + twoyear$BA, data = twoyear)
+summary(wage_results)
+
+print((wage_results$coefficients))
+
+#Question h
+print((wage_results$coefficients))
+
+print((Bivariate_model$coefficients))
+
+print("As a result of including more control variables, the beta_0 intercept increased meaning that the hourly wages of a man, without a two-year BA, etc. is higher than that of someone in the bivariate model with less controls. Inversely, the hourly increase of experience has a lesser affect when there are more control variables involved. Beta_1 decreased from an increase of 4 cents per hour to an increase of 3 cents. Part G is less biased because there are less correlated terms in the error term now.")
+
+#Question i
+
+#bivariate
+print("Standard Error = 5.167")
+
+#multivariate
+print("Standard Error = 4.792")
+
+print("The Standard error decreased, adding precision to our results in the multivariate equation")
+
+wage_results_inflation <- lm(twoyear$exper ~ twoyear$female  + twoyear$phsrank + twoyear$BA, data = twoyear)
+summary(wage_results_inflation)
+
+print("No")

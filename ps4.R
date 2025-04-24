@@ -79,10 +79,10 @@ summary(Crime_Rate_Results)
 
 print("All are estimates for the true values of the coefficients.
 B^0: Baseline crime rate when all explanatory variables are 0.
-B^1: A one-unit increase in police per capita is associated with an increase of 3.06 in the crime rate, holding other variables constant. 
-B^2: A one-unit increase in the probability of arrest is associated with a decrease of 0.051 in crime rate.
-B^3: A one-unit increase in the probability of conviction leads to a 0.0033 decrease in crime rate.
-B^4: A one-unit increase in the average sentence length corresponds to a small increase in crime rate, this is the only estimate where the result is not statistically significant (t = 1.36, p = 0.175).")
+B^1: A one-unit increase in police per capita is associated with an increase of 3.06 in the crime rate, holding all other variables constant. 
+B^2: A one-unit increase in the probability of arrest is associated with a decrease of 0.051 in crime rate, holding all other variables constant. .
+B^3: A one-unit increase in the probability of conviction leads to a 0.0033 decrease in crime rate, holding all other variables constant. .
+B^4: A one-unit increase in the average sentence length corresponds to a small increase in crime rate, holding all other variables constant.  This is the only estimate where the result is not statistically significant (t = 1.36, p = 0.175).")
 
 
 #c. It is highly likely that the above regression has endogeneity problems.
@@ -119,15 +119,13 @@ print("All of the coefficents decreased as a result of adding the fixed effects 
 
 #First Stage:
 
-Stage_One <- lm(Crime$polpc ~ Crime$wloc + Crime$prbarr + Crime$prbconv + Crime$avgsen,  data = Crime)
+Stage_One <- lm(Crime$polpc ~ Crime$wloc + Crime$prbarr + Crime$prbconv + Crime$avgsen + factor(county) + factor(year),  data = Crime)
 
 summary(Stage_One)
 
-Instrument<- predict(Stage_One)
-
 #Second Stage
 
-Second_Stage <- lm(Crime$crmrte ~ Instrument + Crime$prbarr + Crime$prbconv + Crime$avgsen, data = Crime)
+Second_Stage <- ivreg(Crime$crmrte ~ Crime$polpc + Crime$prbarr + Crime$prbconv + Crime$avgsen + factor(county) + factor(year)|Crime$wloc + Crime$prbarr + Crime$prbconv + Crime$avgsen + factor(county) + factor(year), data = Crime)
 
 summary(Second_Stage)
 
@@ -138,13 +136,18 @@ Fixed_Stage_One <- lm(Crime$polpc ~ Crime$wloc + Crime$prbarr + Crime$prbconv + 
 
 summary(Fixed_Stage_One)
 
-Fixed_Instrument<- predict(Fixed_Stage_One)
 
 #Second Stage
 
-Fixed_Second_Stage <- lm(Crime$crmrte ~ Fixed_Instrument + Crime$prbarr + Crime$prbconv + Crime$avgsen + factor(county) + factor(year), data = Crime)
+Stage_One <- lm(Crime$polpc ~ Crime$wloc + Crime$prbarr + Crime$prbconv + Crime$avgsen + factor(county) + factor(year),  data = Crime)
 
-summary(Fixed_Second_Stage)
+summary(Stage_One)
+
+#Second Stage
+
+Second_Stage <- ivreg(Crime$crmrte ~ Crime$polpc + Crime$prbarr + Crime$prbconv + Crime$avgsen + factor(county) + factor(year)|Crime$wloc + Crime$prbarr + Crime$prbconv + Crime$avgsen + factor(county) + factor(year), data = Crime)
+
+summary(Second_Stage)
 
 #What are ˆβ1, ˆβ2, ˆβ3, ˆβ4? What do they mean?
 

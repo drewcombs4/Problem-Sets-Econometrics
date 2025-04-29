@@ -61,12 +61,12 @@ NBA_Data$BLK_Demeaned <- with(NBA_Data, BLK - ave(BLK, Year, FUN = mean))
 
 
 # Regression Model
-model_w/_defense <- lm(Wins ~ Weighted3PEff_Demeaned + TwoPointEff_Demeaned +
+model_defense <- lm(Wins ~ Weighted3PEff_Demeaned + TwoPointEff_Demeaned +
                       TOV_Demeaned + ORB_Demeaned + AST_Demeaned +
                       STL_Demeaned + BLK_Demeaned + factor(Team),
                     data = NBA_Data)
 
-summary(model_w/_defense)
+summary(model_defense)
 
 
 

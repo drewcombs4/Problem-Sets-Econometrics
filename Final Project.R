@@ -17,47 +17,60 @@ setwd(cpath)
 #install.packages("writexl")
 #install.packages("readxl")
 #install.packages("ggplot2")
-install.packages("car")
+#install.packages("car")
 library(car)
 library(readxl)
 library(writexl)
 library(ggplot2)
 library(teamcolors)
 library(ggimage)
+
 #NBA_Data <- read_excel("~/NBAData_Open.xlsx")
 NBA_Data <- read_excel("/Users/drewcombs/Desktop/Econometrics_R_Sessions/NBAData.xlsx")
 
 #Regression Actual
-# Ensure the required data is present
+
+#Renaming Data
 Wins <- NBA_Data$W
-Three_Point_Makes <- NBA_Data$`3PM`
-Three_Point_Attempted <- NBA_Data$`3PA`
-Two_Point_Makes <- NBA_Data$`2PM`
-Two_Point_Attempted <- NBA_Data$`2PA`
-Free_Throw_Makes <- NBA_Data$FTM
-Free_Throw_Attempted <- NBA_Data$FTA
+ThreePointPercentage <- NBA_Data$`3P%`
+ThreePointAttempts <- NBA_Data$`3PA`
+TwoPointPercentage <- NBA_Data$`2P%`
+TwoPointAttempts <- NBA_Data$`2PA`
 Turnovers <- NBA_Data$TOV
 Offensive_Rebounds <- NBA_Data$ORB
 Assists <- NBA_Data$`AST`
-SOS <- NBA_Data$SOS
-# Fit the linear model with the clean data
-Wins_Per_Season <- lm(Wins ~ Three_Point_Makes + Three_Point_Attempted +
-                      Two_Point_Makes + Two_Point_Attempted + 
-                      Free_Throw_Makes + Free_Throw_Attempted + Turnovers + 
-                      Offensive_Rebounds + Assists + factor(Team) + factor(Year) , 
-                      data = NBA_Data)
+Weighted3PEff <- ThreePointPercentage * ThreePointAttempts
+Weighted2PEff <- TwoPointPercentage * TwoPointAttempts
 
-# Summary of the model
-summary(Wins_Per_Season)
+# Demean total stats by year
+NBA_Data$Weighted3PEff_Demeaned <- with(NBA_Data,
+                                        Weighted3PEff - ave(Weighted3PEff, Year, FUN = mean))
+
+NBA_Data$TwoPointEff_Demeaned <- with(NBA_Data,
+                                      Weighted2PEff - ave(Weighted2PEff, Year, FUN = mean))
+
+NBA_Data$AST_Demeaned <- with(NBA_Data, AST - ave(AST, Year, FUN = mean))
+
+NBA_Data$TOV_Demeaned <- with(NBA_Data, TOV - ave(TOV, Year, FUN = mean))
+
+NBA_Data$ORB_Demeaned <- with(NBA_Data, ORB - ave(ORB, Year, FUN = mean))
+
+NBA_Data$STL_Demeaned <- with(NBA_Data, STL - ave(STL, Year, FUN = mean))
+
+NBA_Data$BLK_Demeaned <- with(NBA_Data, BLK - ave(BLK, Year, FUN = mean))
 
 
-vif_TPM <- lm(Three_Point_Makes~Three_Point_Attempted +
-     Two_Point_Makes + Two_Point_Attempted + 
-     Free_Throw_Makes + Free_Throw_Attempted + Turnovers + 
-     Offensive_Rebounds + Assists + factor(Team) + factor(Year), 
-   data = NBA_Data)
-summary(vif_TPM )
-#3PM and Winning Percentage Scatter Plot
+# Regression Model
+model_w/_defense <- lm(Wins ~ Weighted3PEff_Demeaned + TwoPointEff_Demeaned +
+                      TOV_Demeaned + ORB_Demeaned + AST_Demeaned +
+                      STL_Demeaned + BLK_Demeaned + factor(Team),
+                    data = NBA_Data)
+
+summary(model_w/_defense)
+
+
+
+#SCATTER PLOTS FOR 3-POINT PERCENTAGE
 
 # Ensure the Year column is a factor
 NBA_Data$Year <- as.factor(NBA_Data$Year)
@@ -100,12 +113,12 @@ team_logo_urls <- c(
 # Assign team logos to your dataframe
 NBA_Data$Logo <- team_logo_urls[NBA_Data$Team]
 
-# Check the file exists for Bobcats if you're getting errors
+# Check the file exists for Bobcats if you're getting errors (helped by AI)
 if (!file.exists("/Users/drewcombs/Desktop/Econometrics_R_Sessions/Charlotte_Bobcats.png")) {
   stop("Bobcats logo is missing or incorrectly named.")
 }
 
-# Plot
+#Plot for Per Year
 three_point_pct_plot_per_year <- ggplot(NBA_Data, aes(x = `3P%`, y = Wins)) +
   geom_image(aes(image = Logo), size = 0.05) +
   geom_text(aes(label = `3P%`), vjust = -1, size = 1.8, color = "black") +
@@ -144,6 +157,8 @@ three_point_pct_plot_per_team <- ggplot(NBA_Data, aes(x = Three_Point_Makes / Th
 
 print(three_point_pct_plot_per_team)
 ggsave("three_point_pct_plot_per_team.pdf", plot = three_point_pct_plot_per_team, width = 12, height = 10)
+
+
 #3-PT PCT Total
 three_point_pct_plot <- ggplot(NBA_Data, aes(x = Three_Point_Makes / Three_Point_Attempted, y = Wins)) +
   geom_image(aes(image = Logo), size = 0.04) +
@@ -161,23 +176,3 @@ three_point_pct_plot <- ggplot(NBA_Data, aes(x = Three_Point_Makes / Three_Point
 
 print(three_point_pct_plot)
 ggsave("three_point_pct_plot.pdf", plot = three_point_pct_plot, width = 8, height = 6)
-
-#2 Point Percentage 
-two_point_pct_plot_per_year <- ggplot(NBA_Data, aes(x = Two_Point_Makes / Two_Point_Attempted, y = Wins)) +
-  geom_image(aes(image = Logo), size = 0.15) +
-  geom_smooth(method = "lm", se = FALSE, color = "red") +
-  facet_wrap(~Year) +
-  labs(
-    title = "Two Point Percentage vs Wins by Year",
-    x = "Two Point Percentage",
-    y = "Wins"
-  ) +
-  theme_minimal() +
-  theme(
-    legend.position = "none",
-    strip.text = element_text(size = 10)
-  )
-
-print(two_point_pct_plot_per_year)
-ggsave("two_point_pct_plot_per_year.pdf", plot = two_point_pct_plot_per_year, width = 8, height = 6)
-
